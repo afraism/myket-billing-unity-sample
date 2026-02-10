@@ -32,7 +32,12 @@ namespace MyketPlugin
                     return;
 
                 GameObject managerGameObject = getMyketManagerGameObject();
-                GameObject gameObject = new GameObject(type.ToString());
+                // NOTE:
+                // Native UnitySendMessage callbacks target GameObjects by their *exact* name.
+                // Using type.ToString() creates names like "MyketPlugin.IABEventManager" which
+                // do not match callback targets that use "IABEventManager".
+                // Keep the object name namespace-free so callbacks can be resolved.
+                GameObject gameObject = new GameObject(type.Name);
                 gameObject.AddComponent(type);
                 gameObject.transform.parent = managerGameObject.transform;
             }
@@ -47,7 +52,7 @@ namespace MyketPlugin
 
         private void Awake()
         {
-            gameObject.name = GetType().ToString();
+            gameObject.name = GetType().Name;
             DontDestroyOnLoad(this);
         }
     }
