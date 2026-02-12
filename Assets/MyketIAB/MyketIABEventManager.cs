@@ -8,7 +8,7 @@ using SimpleJSON;
 
 namespace MyketPlugin
 {
-    public class IABEventManager : AbstractManager
+    public class IABEventManager : MonoBehaviour
     {
         // Fired after init is called when billing is supported on the device
         public static event Action billingSupportedEvent;
@@ -49,7 +49,7 @@ namespace MyketPlugin
 
         static IABEventManager()
         {
-            initialize(typeof(IABEventManager));
+            MyketManagerBootstrap.Initialize<IABEventManager>();
         }
 
         public void billingSupported(string empty)
